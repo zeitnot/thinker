@@ -1,0 +1,25 @@
+AllCops:
+  Exclude:
+    - spec/**/*.rb
+    - thinker.gemspec
+Documentation:
+  Enabled: true
+
+Metrics/AbcSize:
+  Max: 17
+
+ClassAndModuleChildren:
+  EnforcedStyle: nested
+  SupportedStyles:
+    - nested
+    - compact
+
+Naming/RescuedExceptionsVariableName:
+  PreferredName: exception
+
+MethodLength:
+  CountComments: false  # count full line comments?
+  Max: 16
+
+LineLength:
+  Max: 120
