@@ -5,7 +5,7 @@ class Hash # :nodoc:
   def symbolize_keys
     transform_keys do |key|
       key.to_sym
-    rescue StandardError
+    rescue StandardError => _
       key
     end
   end

@@ -7,10 +7,22 @@ RSpec.describe AdServiceClient do
         .with(
           headers: { 'Accept' => '*/*' }
         )
-        .to_return(status: 200, body: { ads: [] }.to_json, headers: {})
+        .to_return(status: 200, body: File.read(Pathname.new('spec/data/remote_ad.json')), headers: {})
+
+      @ads = subject.ads
     end
+
     it 'returns hash' do
-      expect(subject.ads).to be_instance_of(Hash)
+      expect(@ads).to be_instance_of(Hash)
+    end
+
+    it 'returns 3 ads' do
+      expect(@ads.size).to be(3)
+    end
+
+    it 'includes 2 enabled ads' do
+      enabled_size = @ads.each_value.select{ |value| value[:status] == 'enabled' }.count
+      expect(enabled_size).to be(2)
     end
   end
 
