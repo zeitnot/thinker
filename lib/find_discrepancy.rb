@@ -1,10 +1,12 @@
+# frozen_string_literal: true
+
 # @see #call
 class FindDiscrepancy
-  attr_accessor :remote_data, :discrepancies
+  attr_reader :remote_data, :discrepancies
 
   def initialize
-    self.remote_data    = AdServiceClient.ads
-    self.discrepancies  = []
+    @remote_data    = AdServiceClient.ads
+    @discrepancies  = []
   end
 
   # This method finds the discrepancies between <tt>Campaign</tt> entity and remote ad.
@@ -49,6 +51,5 @@ class FindDiscrepancy
     def call
       new.call
     end
-
   end
 end

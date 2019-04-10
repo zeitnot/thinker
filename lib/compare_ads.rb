@@ -1,16 +1,14 @@
-class CompareAds
-  # Fields to be compared. Keys are corresponding to local fields. However, values are corresponding to remote fields.
-  TARGET_FIELDS_MAP = { ad_description: :description, status: :status }.freeze
-  STATUS_MAP        = { enabled: :active , disabled: :paused }.freeze
-  LOCAL_FIELDS      = TARGET_FIELDS_MAP.keys.freeze
+# frozen_string_literal: true
 
-  attr_accessor :campaign, :remote_ad
+# This class is responsible for comparing <tt>Campaign</tt> and a hash value that contains remote ad details.
+class CompareAds
+  attr_reader :campaign, :remote_ad
 
   # @param [Campaing] campaign
   # @param [Hash] remote_ad
   def initialize(campaign:, remote_ad:)
-    self.campaign   = campaign
-    self.remote_ad  = remote_ad
+    @campaign   = campaign
+    @remote_ad  = remote_ad
   end
 
   # Compares single <tt>Campaign</tt> and a <tt>Hash</tt> from remote data. If there is any discrepancies it returns
@@ -32,34 +30,31 @@ class CompareAds
   # @return [Hash,nil]
   def compare
     external_id = campaign.external_reference
+    # Remote ad does not exist.
     return { remote_reference: external_id, remote_existence: false, discrepancies: [] } unless remote_ad
 
     discrepancies = []
-    LOCAL_FIELDS.each do |field|
-      local_value   = campaign.send(field).to_s
+    Thinker::LOCAL_FIELDS.each do |field|
+      local_value   = campaign.send(field)
+      is_status     = field == :status
+      remote_status = remote_ad[:status]
 
-      if field == :status
-        remote_value  = STATUS_MAP[remote_ad[:status].to_sym]
-        remote_value  = remote_ad[:status] unless remote_value # Hash may return nil in case of unknown status.
+      if is_status
+        remote_value = Thinker::STATUS_MAP[remote_status.to_sym].to_s
+        remote_value ||= remote_status # Thinker::STATUS_MAP may return nil in case of unknown status.
       else
-        remote_value  = remote_ad[TARGET_FIELDS_MAP[field]]
+        remote_value = remote_ad[Thinker::TARGET_FIELDS_MAP[field]]
       end
-
-      remote_value = remote_value.to_s
 
       next if  local_value == remote_value
 
       # Rollback to old value if it is status
-      remote_value = remote_ad[:status] if field == :status
+      remote_value = remote_status if is_status
 
-      discrepancies << {
-          remote: remote_value,
-          local: local_value,
-          field: field.to_s
-      }
+      discrepancies << { remote: remote_value, local: local_value, field: field.to_s }
     end
 
-    { remote_reference: external_id, remote_existence: true ,discrepancies: discrepancies } if discrepancies.any?
+    { remote_reference: external_id, remote_existence: true, discrepancies: discrepancies } if discrepancies.any?
   end
 
   class << self
