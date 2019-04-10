@@ -1,0 +1,3 @@
+[![Build Status](https://travis-ci.org/zeitnot/thinker.svg?branch=master)](https://travis-ci.org/zeitnot/thinker)
+<a href="https://codeclimate.com/github/zeitnot/thinker/maintainability"><img src="https://api.codeclimate.com/v1/badges/a0f2b7cbb3b7109a7a00/maintainability" /></a>
+<a href="https://codeclimate.com/github/zeitnot/thinker/test_coverage"><img src="https://api.codeclimate.com/v1/badges/a0f2b7cbb3b7109a7a00/test_coverage" /></a>
