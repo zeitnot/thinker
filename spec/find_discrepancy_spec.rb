@@ -4,6 +4,13 @@ RSpec.describe FindDiscrepancy do
 
   describe '.call' do
 
+    context 'when remote_data is nil' do
+      it 'returns empty array' do
+        allow(AdServiceClient.connection).to receive(:get).and_raise(Faraday::TimeoutError)
+        expect(FindDiscrepancy.call).to eql([])
+      end
+    end
+
     context 'when there is discrepancies' do
       it 'returns array with discrepancies' do
         campaign_mock = [

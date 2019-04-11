@@ -14,7 +14,7 @@ class FindDiscrepancy
   # empty <tt>Array</tt>. In the payload, there is special key which is <tt>remote_existence</tt>. This means that if
   # the <tt>Campaign</tt> entity does not have a corresponding remote ad then the value will be <tt>false</tt> and the
   # <tt>discrepancies</tt> key will be empty array.
-  # @example
+  # @example When there is discrepancies:
   #     [
   #         {
   #             :remote_reference => "1",
@@ -36,8 +36,16 @@ class FindDiscrepancy
   #         { :remote_reference => "5", :remote_existence => false, :discrepancies => [] },
   #         { :remote_reference => "6", :remote_existence => false, :discrepancies => [] }
   #     ]
+  #
+  # @example When there is not discrepancies:
+  #   []
+  #
+  # @example If remote JSON file malformed or there is client specific errors like connection time out:
+  #   []
   # @return [Array<Hash>]
   def call
+    return discrepancies unless remote_data
+
     Campaign.all.each do |campaign|
       remote_ad   = remote_data[campaign.external_reference]
       result      = CompareAds.call(campaign: campaign, remote_ad: remote_ad)

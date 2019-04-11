@@ -2,7 +2,6 @@
 
 # :reek:IrresponsibleModule
 class Hash # :nodoc:
-
   def transform_keys
     result = {}
     each_key do |key|
