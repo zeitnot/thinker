@@ -27,7 +27,7 @@ class CompareAds
   #     ]
   #   }
   # @see AddServiceClient.ads
-  # @return [Hash,nil]
+  # @return [Hash,nil] returns nil if there is no discrepancy
   def compare
     external_id = campaign.external_reference
     # Remote ad does not exist.
