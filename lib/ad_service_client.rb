@@ -1,8 +1,12 @@
 # frozen_string_literal: true
 
-# This module is responsible for downloading JSON data from ad service.
+# This module is responsible for downloading and parsing JSON data from ad service.
 # @example
-#   AdServiceClient.ads
+#   AdServiceClient.ads #=>
+#   {
+#       '1' => { reference: '1', status: 'enabled', description: 'Description for campaign 10' },
+#       '2' => { reference: '2', status: 'enabled', description: 'Description for campaign 11' }
+#   }
 module AdServiceClient
   class << self
     # Downloads and parses JSON from ad service
@@ -61,6 +65,9 @@ module AdServiceClient
       end
     end
 
+    # Parses JSON data in safe way. If there is exception while parsing nil will be returned.
+    # @param [Faraday::Response,nil]
+    # @return [Hash, nil]
     def parse_json(response)
       return unless response
 

@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 # This class acts like and ActiveRecord class
+# This class acts like a ActiveRecord class
+# It responds to <tt>all</tt> class method and returns instances of <tt>Campaign</tt>.
 # :reek:Attribute
 class Campaign
   attr_accessor :id, :job_id, :status, :external_reference, :ad_description

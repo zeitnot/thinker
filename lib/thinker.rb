@@ -11,7 +11,7 @@ require 'campaign'
 require 'compare_ads'
 require 'find_discrepancy'
 
-# Configurations goes here
+# Configurations goes here.
 module Thinker
   # Fields to be compared. Keys are corresponding to local fields. However, values are corresponding to remote fields.
   TARGET_FIELDS_MAP = { ad_description: :description, status: :status }.freeze
