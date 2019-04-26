@@ -15,7 +15,7 @@ ruby `>= 2.3`
 * `$ rake`
 
 ### RDocs
-You can view the Devise documentation in RDoc format here:
+You can view the Thinker documentation in RDoc format here:
 https://www.rubydoc.info/github/zeitnot/thinker/
 
 ### Usage
